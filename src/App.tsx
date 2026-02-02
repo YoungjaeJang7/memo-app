@@ -33,10 +33,10 @@ function App() {
             memos.map((memo) =>
                 memo.id === id
                     ? {
-                          ...memo,
-                          content: content,
-                          updatedAt: new Date().toISOString(),
-                      }
+                        ...memo,
+                        content: content,
+                        updatedAt: new Date().toISOString(),
+                    }
                     : memo,
             ),
         );
@@ -46,11 +46,27 @@ function App() {
         setMemos(memos.filter((memo) => memo.id !== id));
     };
 
+    const handleClearAll = () => {
+        if (memos.length === 0) {
+            alert("삭제할 메모가 없습니다.");
+            return;
+        }
+
+        if (window.confirm(`정말 ${memos.length}개의 메모를 모두 삭제하시겠습니까?`)) {
+            setMemos([]);
+        }
+    };
+
     return (
         <div className="app">
             <h1>📝 {import.meta.env.VITE_APP_TITLE}</h1>
 
             <MemoForm onAddMemo={handleAddMemo} />
+            {memos.length > 0 && (
+                <button className="clear-all-button" onClick={handleClearAll}>
+                    🗑️ 전체 삭제
+                </button>
+            )}
 
             <MemoList
                 memos={memos}
